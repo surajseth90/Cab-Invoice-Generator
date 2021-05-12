@@ -12,4 +12,11 @@ public class InvoiceServiceTest {
 		double totalFare = invoiceService.calculateTotalFare(5, 10);
 		Assert.assertEquals(60.0, totalFare, 0.0);
 	}
+	
+	@Test
+	public void givenDistanceAndTime_CalculateFare_WhenLessThanMinimumFare_ShouldReturnMinimumFare() {
+		InvoiceService invoiceService = new InvoiceService();
+		double totalFare = invoiceService.calculateTotalFare(0.1, 2);
+		Assert.assertEquals(5.0, totalFare, 0.0);
+	}
 }
