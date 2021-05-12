@@ -9,4 +9,15 @@ public class InvoiceService {
 		return Math.max(COST_PER_KILOMETER * kilometer + COST_PER_MINUTE * minute, MINIMUM_FARE);
 	}
 
+	public double calculateTotalFare(double[] kilometer, int[] minute) {
+		double totalFare = 0;
+		for (int i = 0; i < minute.length; i++) {
+			double cost = COST_PER_KILOMETER * kilometer[i] + COST_PER_MINUTE * minute[i];
+			if (cost > MINIMUM_FARE)
+				totalFare += cost;
+			else
+				totalFare += MINIMUM_FARE;
+		}
+		return totalFare;
+	}
 }
