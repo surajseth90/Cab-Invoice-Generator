@@ -12,13 +12,13 @@ public class InvoiceServiceTest {
 
 	@Test
 	public void givenDistanceAndTime_ShouldReturnFare() {
-		double totalFare = invoiceService.calculateTotalFare(5, 10);
+		double totalFare = invoiceService.calculateTotalFare(5, 10, "normal");
 		Assert.assertEquals(60.0, totalFare, 0.0);
 	}
 
 	@Test
 	public void givenDistanceAndTime_CalculateFare_WhenLessThanMinimumFare_ShouldReturnMinimumFare() {
-		double totalFare = invoiceService.calculateTotalFare(0.1, 2);
+		double totalFare = invoiceService.calculateTotalFare(0.1, 2, "normal");
 		Assert.assertEquals(5.0, totalFare, 0.0);
 	}
 
@@ -30,9 +30,19 @@ public class InvoiceServiceTest {
 		InvoiceSummary expectedSummary = new InvoiceSummary(2, 65);
 		Assert.assertEquals(expectedSummary, summary);
 	}
-	
+
 	@Test
 	public void givenUserID_ShouldReturnInvoiceSummary() {
+		Integer userId = 1;
+		RideRepository rideRepository = new RideRepository();
+		Ride[] rideList = rideRepository.getRideList(userId);
+		InvoiceSummary invoiceSummary = invoiceService.calculateTotalFare(rideList);
+		InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 65.0);
+		Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
+	}
+
+	@Test
+	public void givenUserID_ByRideType_ShouldReturnInvoiceSummary() {
 		Integer userId = 1;
 		RideRepository rideRepository = new RideRepository();
 		Ride[] rideList = rideRepository.getRideList(userId);
