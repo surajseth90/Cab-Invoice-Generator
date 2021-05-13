@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import com.bridgelabz.cabinvoicegenerator.InvoiceService;
 import com.bridgelabz.cabinvoicegenerator.InvoiceSummary;
+import com.bridgelabz.cabinvoicegenerator.Ride;
+import com.bridgelabz.cabinvoicegenerator.RideRepository;
 
 public class InvoiceServiceTest {
 	InvoiceService invoiceService = new InvoiceService();
@@ -21,7 +23,6 @@ public class InvoiceServiceTest {
 	}
 
 	@Test
-
 	public void givenMulipleRidesWithDistanceAndTime_ShouldReturnInvoiceSummary() {
 		double[] kilometer = { 5, 0.1 };
 		int[] minute = { 10, 2 };
@@ -29,5 +30,14 @@ public class InvoiceServiceTest {
 		InvoiceSummary expectedSummary = new InvoiceSummary(2, 65);
 		Assert.assertEquals(expectedSummary, summary);
 	}
-
+	
+	@Test
+	public void givenUserID_ShouldReturnInvoiceSummary() {
+		Integer userId = 1;
+		RideRepository rideRepository = new RideRepository();
+		Ride[] rideList = rideRepository.getRideList(userId);
+		InvoiceSummary invoiceSummary = invoiceService.calculateTotalFare(rideList);
+		InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 65.0);
+		Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
+	}
 }

@@ -22,4 +22,12 @@ public class InvoiceService {
 		}
 		return new InvoiceSummary(numOfRides, totalFare);
 	}
+	
+	public InvoiceSummary calculateTotalFare(Ride[] rides) {
+		double totalFare = 0.0;
+		for (Ride ride : rides) {
+			totalFare += this.calculateTotalFare(ride.distance, ride.time);
+		}
+		return new InvoiceSummary(rides.length, totalFare);
+	}
 }
